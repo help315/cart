@@ -1,16 +1,10 @@
 // JavaScript Document
-
-   
-  function printview()     
-  {     
- // document.all.WebBrowser1.ExecWB(7,1) ;
- // window.close();  
-         bdhtml = window.document.body.innerHTML;
+    function preview() {
+        bdhtml = window.document.body.innerHTML;
         sprnstr = "<!--startprint-->";
         eprnstr = "<!--endprint-->";
         prnhtml = bdhtml.substr(bdhtml.indexOf(sprnstr) + 17);
         prnhtml = prnhtml.substring(0, prnhtml.indexOf(eprnstr));
         window.document.body.innerHTML = prnhtml;
-      //window.print();
-  }     
- 
+        window.print();
+    }
