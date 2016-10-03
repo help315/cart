@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<!--js验证函数：-->
+<script language="javascript">
+
+
+function checkPhone(){ 
+    var phone=document.getElementById('mtel').value;
+    if(!(/^1[34578]\d{9}$/.test(phone))){ 
+        alert("手机号码有误，请重填");  
+        return false; 
+    } 
+}
+
+function checkPhone2(form){ 
+    var phone=form.mtel.value;
+	var Expression=/^13(\d{9})$|^15(\d{9})$/; 
+	var objExp=new RegExp(Expression);
+    if(objExp.test(phone)){ 
+	  alert("手机号码正确！");  
+        return false; 
+	}else{
+        alert("手机号码有误，请重填");  
+        return false; 
+    } 
+}
+</script>
+</head>
+
+<body>
+<h2>比如有个表单</h2>
+<form name="myForm" action="#"  method="post">
+
+Address: <input type="text" name="add">
+
+Tel: <input type="text" name="mtel" id="mtel" onBlur="checkPhone2(myForm)">
+<input type="submit" value="Submit">
+</form>
+
+
+</body>
+</html>

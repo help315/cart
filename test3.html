@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<title>无标题文档</title>
+<script language="javascript">  
+  function print(){  
+   var a=document.myform.name.value;  
+   alert(a);  
+  }  
+  
+    function print2(){  
+   var a2=document.myform2.name2.value;  
+   alert(a2);  
+  }  
+ </script>
+</head>
+
+<body>
+<hr />
+  <form name="myform">  
+   <input type="text" name="name" id="nn" />  
+   <input type="button" name="button" value="获取" onclick="print()" />  
+  </form>   
+  <br>
+    <form name="myform2">  
+   <input type="text" name="name2" id="nn" />  
+   <input type="button" name="button2" value="获取" onclick="print2()" />  
+  </form>   
+</body>
+</html>
