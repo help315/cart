@@ -1,15 +1,10 @@
 <?php
-header("Content-type:text/html;charset=utf-8");
- $link=mysqli_connect("localhost", "root", "612345") or die('连接失败！！！'.mysqli_errno());
- //测试连接.
- //echo '所连主机信息为：'.mysqli_get_host_info($link).'<br>';
+ //数据连接设置.
+ $link=mysqli_connect('localhost','root','612345') or die('数据连接失败！');
+ //选择要使用的数据库.
+ mysqli_select_db($link,'cart') or die('数据库连接失败!');
  
- if (mysqli_select_db($link, 'tb_shopping_car')){
- 	echo '';
- }else{
- 	echo('数据选择失败：'.mysqli_error());
- }
-  mysqli_query($link,'set names utf8');
-  
-  
+ //echo 'Test!';
+ //设置查询结果的字符集
+ mysqli_query($link,'SET NAMES utf8 ');
 ?>

@@ -1,71 +1,54 @@
 <?php
-session_start();
-header("Content-type:text/html;charset=utf8");
-//调用smarty配置文件.
-require_once('config.php');
-//调用数据库连接文件.
-require_once('conn.php');
+  //启动session功能.
+  session_start();
+  //设置网页字符集.
+  header("Content-type:text/html;charset=utf8");
+  //导入smarty配置文件.
+  require('config.php');
+  //导入数据连接文件.
+  require('conn.php');
+  //判断goodsid的session变量是否设置.
+  if(isset($_SESSION['goodsid']) && isset($_SESSION['goodsnum'])){
+	  //如果已设置，则分解成数组.
+	  $array=explode('@',$_SESSION['goodsid']);
+	  //goodsnum的session数组必须同时分解.
+	  $arraynum=explode('@',$_SESSION['goodsnum']);
+  }else{
+	  $array=array();
+	  }//if end.
 
-//判断session变量是否设置，此判断很关键.
-if(isset($_SESSION['goodsid']) && isset($_SESSION['goodsnum'])){
-
-$array=explode("@",$_SESSION["goodsid"]);
-//var_dump($array); 测试行.
-$arraynum=explode("@",$_SESSION["goodsnum"]);
-}else{
-	$array=array();
-	}//if end.
-//定义价格变量.
-$totalprice=0;
-//创建数组信息.
-$arrayinfo=array();
-//根据array中元素，从数据库提取记录将其存入一个数组中，便于模板提取.
-for($i=0;$i<count($array);$i++){
-	if($array[$i]!=''){
-		//查询语句.
-		$sql='select * from tb_commodity where tb_commodity_id='.$array[$i];
-		//执行查询.
-		$query=mysqli_query($link,$sql);
-		//$query=mysqli_query($link,$sql);
-		
-		//if (!$query) {
-		//printf("Error: %s\n", mysqli_error($link));
-		//exit();
-		//}
-		//获取记录.
-		$result=mysqli_fetch_array($query);
-		//将数量添加到记录结果最后边.
-		array_push($result,$arraynum[$i]);
-		//var_dump($result);
-		//将最终数组压入新的记录数组中.
-		array_push($arrayinfo,$result);
-		//价格总计.
-		$totalprice+=$result["tb_commodity_price"]*$arraynum[$i];
-		//$result=mysqli_fetch_array($query);
-		//$array=array(); //定义一个数组变量.
-		//while($result=mysqli_fetch_array($query,MYSQLI_BOTH)){
-		//array_push($array,$result);
-		//var_dump($result);
-		//echo $array[$i].'<br>';
-         }//if end.
-
-}//for end.
-
- //var_dump(count($arrayinfo));
- //exit;
-		if(count($arrayinfo)>0){
-		$smarty->assign('isShow','T');
-		$smarty->assign('myrow',$arrayinfo);		
-		$smarty->assign('totalprice',$totalprice);
-	    }else{
-		  $smarty->assign('isShow','F');
-		  $smarty->assign('totalprice',$totalprice);
-		}//if end.
-	
-
-
-//echo 'shopping_car page';
-//$smarty->assign('title','成功'); //测试行.
-$smarty->display('shopping_car.tpl');
-
+  //定义价格变量	  
+  $totalprice=0;
+  //创建准备存储记录的数组.
+  $arrayinfo=array();
+  
+  //根据$array中的元素，从表中读取相关记录.
+  for($i=0;$i<count($array);$i++){
+	  if($array[$i]!=''){
+	  //设置sql语句.
+	  $sql='select * from goods where id='.$array[$i];
+	  //执行查询.
+	  $query=mysqli_query($link,$sql);
+	  //读取数据.
+	  $info=mysqli_fetch_array($query);	  
+	  //将arraynum[]数组相对应的值也存入arrayinfo.
+	  array_push($info,$arraynum[$i]);
+	  //将整理好的$info数组给总数组.
+	  array_push($arrayinfo,$info);
+	  //统计商品价格.
+	  $totalprice+=$info['price']*$arraynum[$i];
+	  }//if end.
+	  
+  }//for end.
+  
+  //判断$arrayinfo中是否有记录.
+  if(count($arrayinfo)>0){
+	  $smarty->assign('isShow','T'); //给变量isShow赋值T.
+	  $smarty->assign('myrow',$arrayinfo); //将$arrayinfo给myrow赋值.
+	  $smarty->assign('totalprice',$totalprice); //赋值给总价变量.
+  }else{
+      $smarty->assign('isShow','F'); //如果$arrayinfo为0，则给isShow赋值F.
+	  $smarty->assign('totalprice',$totalprice); //赋值给总价变量.
+  }//if end.
+  $smarty->display('shopping_car.html');
 ?>
