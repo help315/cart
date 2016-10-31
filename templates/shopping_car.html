@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!--模板变量title,它接收index.php中传过来的值-->
+<title>购物车测试程序</title>
+<!--bootstrap.min.css样式链接-->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+
+<body class="container">
+<div class="col-md-12">
+<hr />
+<!--模板变量content-->
+<h2>购物车测试程序</h2>
+<hr />
+</div>
+<div class="col-md-12">
+<table class="table  table-bordered" >
+ <tr>
+   <td>
+   <div align="center"><img src="images/sy_2.jpg" width="980" height="75"></div>
+   </td>
+ </tr>
+ <tr>
+   <td>
+   <div align="center"><img src="images/sy_4.jpg" width="980" height="258"></div>
+   </td>
+ </tr> 
+</table>
+<table class="table  table-bordered" >
+<tr>
+<td>
+
+   <div align="center">
+  
+  <table  class="table  table-bordered"  style="width:980px;">
+  
+  <tr>
+   <td>品名</td>
+   <td>单价</td>
+   <td>数量</td>
+   <td>小计</td>
+   <td>操作</td>
+   
+  </tr>
+  {if $isShow=='F'}
+  <tr>
+   <td colspan='5'><h2>购物车是空的！</h2></td>
+  </tr>
+  {else}
+  {foreach from=$myrow item=data}
+
+  <tr>
+  <form name="form{$data.id}" method="post" action="change_counts.php" >
+   <td>{$data.name}</td>
+   <td>{$data.price}</td>
+   <td>
+   <input name="goodsnum" type="text" value="{$data.5}">
+   <input name="id" type="hidden" value="{$data.id}"
+   </td>
+   <td>{$data.5*$data.price}</td>
+   <td>
+   <a href="javascript:form{$data.id}.submit()" style="color:#FFF"><button type="button" class="btn btn-success">修改数量</button></a>
+   &nbsp;&nbsp;
+   <a href="delete.php?id={$data.id}" style="color:#FFF"><button type="button" class="btn btn-success">删除此项</button></a></td>
+  </form>
+  </tr>
+  {/foreach}
+  {/if}
+   <tr>
+   <td></td>
+   <td></td>
+   <td></td>
+   <td>合计：{$totalprice}</td>
+   <td></td>
+   
+  </tr>
+  
+  </table>
+
+   
+  </div>
+ 
+
+</td>
+</tr>
+ <tr>
+ <td align="center"> <h3><a href="index.php" style="color:#FFF"><button type="button" class="btn btn-success">继续购物</button></a>&nbsp;&nbsp;&nbsp;<a href="clear.php" style="color:#FFF"><button type="button" class="btn btn-success">清空购物车</button></a></h3></td>
+ 
+ </tr>
+</table>
+</div>
+</body>
+</html>
